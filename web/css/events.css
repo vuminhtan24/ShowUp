@@ -1,0 +1,141 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Nov 13, 2025, 12:22:25 PM
+    Author     : VU MINH TAN
+*/
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.search-bar input {
+    width: 60%;
+    padding: 10px 15px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.search-bar input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px #4CAF50;
+}
+
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.event-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.event-image {
+    background-color: #e9ecef;
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+}
+
+.event-content {
+    padding: 15px 18px;
+}
+
+.event-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.event-info {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+.event-description {
+    font-size: 14px;
+    color: #555;
+    margin: 10px 0 15px;
+    height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status {
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    color: #fff;
+}
+
+.status.active {
+    background-color: #28a745;
+}
+
+.status.pending {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.status.cancelled {
+    background-color: #dc3545;
+}
+
+.btn-view {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.25s ease;
+}
+
+.btn-view:hover {
+    background-color: #45a049;
+}
