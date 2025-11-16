@@ -98,15 +98,15 @@
                             </c:when>
                             <c:otherwise>
                                 <svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-                                            <stop offset="0%" stop-color="#a78bfa"/>
-                                            <stop offset="50%" stop-color="#6366f1"/>
-                                            <stop offset="100%" stop-color="#22d3ee"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <rect width="1200" height="400" fill="url(#g1)"/>
-                                    <text x="40" y="220" font-size="48" fill="#fff" font-weight="800">${artist.stageName}</text>
+                                <defs>
+                                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#a78bfa"/>
+                                <stop offset="50%" stop-color="#6366f1"/>
+                                <stop offset="100%" stop-color="#22d3ee"/>
+                                </linearGradient>
+                                </defs>
+                                <rect width="1200" height="400" fill="url(#g1)"/>
+                                <text x="40" y="220" font-size="48" fill="#fff" font-weight="800">${artist.stageName}</text>
                                 </svg>
                             </c:otherwise>
                         </c:choose>
@@ -200,8 +200,55 @@
             <aside class="info-card" style="align-self:start">
                 <h3>Thông tin liên hệ</h3>
                 <p class="muted">Liên hệ để đặt show hoặc xem thêm dịch vụ của nghệ sĩ này.</p>
+
+                <!-- Hiển thị số điện thoại -->
+                <div style="margin-top:15px;">
+                    <strong>Số điện thoại:</strong>
+                    <br>
+
+                    <c:choose>
+                        <!-- Nếu đã mua quyền xem -->
+                        <c:when test="${phoneVisible == true}">
+                            <span style="font-size:18px; font-weight:bold;">
+                                ${artist.phone}
+                            </span>
+                        </c:when>
+
+                        <!-- Nếu chưa mua -->
+                        <c:otherwise>
+                            <span style="font-size:18px; font-weight:bold; letter-spacing:1px;">
+                                ${maskedPhone}
+                            </span>
+                            <br><br>
+
+                            <!-- Nút mở khóa -->
+                            <form action="unlockPhone" method="post">
+                                <input type="hidden" name="artistId" value="${artist.artistId}">
+                                <button type="submit"
+                                        style="
+                                        padding:8px 14px;
+                                        background:#6366f1;
+                                        color:white;
+                                        border:none;
+                                        border-radius:6px;
+                                        cursor:pointer;
+                                        ">
+                                    Mở khóa số điện thoại (5 điểm)
+                                </button>
+                            </form>
+
+                            <p class="muted" style="margin-top:6px;">
+                                Điểm hiện tại: <b>${credits}</b>
+                            </p>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+
+                <hr style="margin:16px 0;">
+
                 <a class="btn btn-primary" href="home">Quay lại danh sách</a>
             </aside>
+
         </div>
     </body>
 </html>

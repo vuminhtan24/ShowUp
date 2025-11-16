@@ -106,6 +106,19 @@ public class UserDAO extends DBContext {
         return 0;
     }
 
+    public void decreaseCredits(int userId, int amount) {
+        String sql = "UPDATE users SET credits = credits - ? WHERE user_id = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, amount); // amount = 5
+            st.setInt(2, userId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String args[]) {
         UserDAO dao = new UserDAO();
 

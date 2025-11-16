@@ -56,6 +56,10 @@
         <servlet-name>EventDetail</servlet-name>
         <servlet-class>controller.EventDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewPhoneServlet</servlet-name>
+        <servlet-class>controller.ViewPhoneServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -111,5 +115,9 @@
     <servlet-mapping>
         <servlet-name>EventDetail</servlet-name>
         <url-pattern>/eventDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPhoneServlet</servlet-name>
+        <url-pattern>/viewPhone</url-pattern>
     </servlet-mapping>
 </web-app>
