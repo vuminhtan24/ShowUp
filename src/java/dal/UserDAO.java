@@ -118,33 +118,22 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    public int getCredits(int userId){
+        String sql = "select credits from users where user_id = ?";
+         try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("credits");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public static void main(String args[]) {
         UserDAO dao = new UserDAO();
-
-//        // 1. Test Register
-//        User newUser = new User(
-//                0,
-//                "tan", // username
-//                "123456", // password (hiện tại chưa hash)
-//                "tanvmhe186791@fpt.edu.vn", // email
-//                "0919994398", // phone
-//                "admin", // role
-//                "active" // status
-//        );
-//
-//        boolean registered = dao.register(newUser);
-//        if (registered) {
-//            System.out.println("Đăng ký thành công!");
-//        } else {
-//            System.out.println("Đăng ký thất bại!");
-//        }
-        // 2. Test Login
-        User loginUser = dao.login("tanvmhe186791@fpt.edu.vn", "123456");
-        if (loginUser != null) {
-            System.out.println("Đăng nhập thành công: " + loginUser.getUsername() + " - role: " + loginUser.getRole());
-        } else {
-            System.out.println("Đăng nhập thất bại!");
-        }
+            System.out.println(dao.getCredits(1));
     }
 }

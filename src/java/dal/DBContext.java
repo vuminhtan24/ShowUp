@@ -34,6 +34,17 @@ public class DBContext {
             ex.printStackTrace(); // để thấy lỗi rõ hơn khi debug
         }
     }
+    // Hàm đóng connection
+    public void closeConnection() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+                System.out.println("✅ Connection closed");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         DBContext db = new DBContext();

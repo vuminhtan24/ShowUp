@@ -30,7 +30,7 @@ public class PaidInfoAccessDAO extends DBContext {
     }
 
     // Lưu lịch sử user trả điểm để xem thông tin
-    public void insert(int viewerId, int targetUserId, String infoType) {
+    public void insertAccess(int viewerId, int targetUserId, String infoType) {
         String sql = "INSERT INTO paid_info_access (viewer_id, target_user_id, info_type) "
                 + "VALUES (?, ?, ?)";
         try {

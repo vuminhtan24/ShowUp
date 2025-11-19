@@ -9,6 +9,7 @@ import dal.MediaDAO;
 import dal.EventDAO;
 import dal.PerformanceDAO;
 import dal.ReviewDAO;
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -76,17 +77,28 @@ public class ArtistDetailServlet extends HttpServlet {
             return;
         }
 
+        // ---- LẤY USER TỪ SESSION ----
+        Integer userId = null;
+        if (request.getSession().getAttribute("userId") != null) {
+            userId = (Integer) request.getSession().getAttribute("userId");
+        }
+
         ArtistDAO artistDao = new ArtistDAO();
         MediaDAO mediaDAO = new MediaDAO();
         EventDAO eventDAO = new EventDAO();
         PerformanceDAO performanceDAO = new PerformanceDAO();  // thêm
         ReviewDAO reviewDAO = new ReviewDAO();                  // thêm
+        UserDAO userDAO = new UserDAO();                  // thêm
 
         Artist artist = artistDao.getArtistById(artistId);
 
         if (artist == null) {
             response.sendRedirect("home");
             return;
+        }
+        int credits = 0;
+        if (userId != null) {
+            credits = userDAO.getCredits(userId);
         }
 
         // Gán các danh sách vào request
@@ -96,6 +108,9 @@ public class ArtistDetailServlet extends HttpServlet {
         request.setAttribute("eventList", eventDAO.getEventById(artistId));
         request.setAttribute("performanceList", performanceDAO.getPerformancesByArtist(artistId)); // thêm
         request.setAttribute("reviewList", reviewDAO.getReviewsByArtist(artistId)); // thêm
+        request.setAttribute("phoneVisible", false);
+        request.setAttribute("maskedPhone", "*******");
+        request.setAttribute("credits", credits);
 
         // Chuyển đến trang chi tiết
         request.getRequestDispatcher("artistDetail.jsp").forward(request, response);

@@ -270,6 +270,8 @@ public class EventDAO extends DBContext {
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            this.closeConnection();
         }
         return false;
     }

@@ -205,44 +205,41 @@
                 <div style="margin-top:15px;">
                     <strong>Số điện thoại:</strong>
                     <br>
+                    <!-- Hiển thị lỗi nếu không đủ điểm -->
+                    <c:if test="${not empty sessionScope['phoneError']}">
+                        <p class="muted" style="color:red;">${sessionScope['phoneError']}</p>
+                        <c:remove var="phoneError" scope="session"/>
+                    </c:if>
+
+                    <!-- Lấy số điện thoại thực từ Map trong session -->
+                    <c:set var="realPhone" value="${sessionScope.phoneVisibleMap[artist.id]}" />
 
                     <c:choose>
-                        <!-- Nếu đã mua quyền xem -->
-                        <c:when test="${phoneVisible == true}">
+                        <c:when test="${not empty realPhone}">
                             <span style="font-size:18px; font-weight:bold;">
-                                ${artist.phone}
+                                ${realPhone}
                             </span>
                         </c:when>
 
-                        <!-- Nếu chưa mua -->
                         <c:otherwise>
                             <span style="font-size:18px; font-weight:bold; letter-spacing:1px;">
                                 ${maskedPhone}
                             </span>
                             <br><br>
-
-                            <!-- Nút mở khóa -->
-                            <form action="unlockPhone" method="post">
-                                <input type="hidden" name="artistId" value="${artist.artistId}">
+                            <form action="viewPhone" method="post">
+                                <input type="hidden" name="artistId" value="${artist.id}">
                                 <button type="submit"
-                                        style="
-                                        padding:8px 14px;
-                                        background:#6366f1;
-                                        color:white;
-                                        border:none;
-                                        border-radius:6px;
-                                        cursor:pointer;
-                                        ">
+                                        style="padding:8px 14px; background:#6366f1; color:white; border:none; border-radius:6px; cursor:pointer;">
                                     Mở khóa số điện thoại (5 điểm)
                                 </button>
                             </form>
-
                             <p class="muted" style="margin-top:6px;">
                                 Điểm hiện tại: <b>${credits}</b>
                             </p>
                         </c:otherwise>
                     </c:choose>
                 </div>
+
 
                 <hr style="margin:16px 0;">
 
