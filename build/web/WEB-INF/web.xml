@@ -60,6 +60,10 @@
         <servlet-name>ViewPhoneServlet</servlet-name>
         <servlet-class>controller.ViewPhoneServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManageCreditsServlet</servlet-name>
+        <servlet-class>controller.ManageCreditsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -119,5 +123,9 @@
     <servlet-mapping>
         <servlet-name>ViewPhoneServlet</servlet-name>
         <url-pattern>/viewPhone</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageCreditsServlet</servlet-name>
+        <url-pattern>/manageCredits</url-pattern>
     </servlet-mapping>
 </web-app>

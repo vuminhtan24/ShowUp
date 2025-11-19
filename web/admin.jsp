@@ -30,9 +30,12 @@
         <header>
             <div class="container">
                 <div class="nav">
-                    <a href="#home" class="brand">
+                    <a href="${pageContext.request.contextPath}/home" class="brand">
                         <div class="brand-badge">SU</div>
                         <div>ShowUp</div>
+                    </a>
+                    <a href="manageCredits">
+                        <div class="row">Quản lý điểm</div>
                     </a>
                     <c:choose>
                         <c:when test="${not empty sessionScope.account}">
