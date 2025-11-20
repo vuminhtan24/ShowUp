@@ -61,6 +61,7 @@ public class ManageCreditsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String keyword = request.getParameter("keyword");
         String pageRaw = request.getParameter("page");
 
@@ -70,13 +71,13 @@ public class ManageCreditsServlet extends HttpServlet {
         List<User> userList;
         int totalUsers;
 
-        // ✔ Nếu có search
+        // Nếu có search
         if (keyword != null && !keyword.trim().isEmpty()) {
-            userList = userDAO.searchUsersByPage(keyword.trim(), offset, PAGE_SIZE);
+            userList = userDAO.searchUsersByPageWithCredits(keyword.trim(), offset, PAGE_SIZE);
             totalUsers = userDAO.getTotalUsersSearch(keyword.trim());
         } else {
-            // ✔ Không search
-            userList = userDAO.getUsersByPage(offset, PAGE_SIZE);
+            // Không search
+            userList = userDAO.getUsersByPageWithCredits(offset, PAGE_SIZE);
             totalUsers = userDAO.getTotalUsers();
         }
 
@@ -101,7 +102,12 @@ public class ManageCreditsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        int credits = Integer.parseInt(request.getParameter("credits"));
+
+        new UserDAO().updateCredits(userId, credits);
+
+        response.sendRedirect("manageCredits");
     }
 
     /**

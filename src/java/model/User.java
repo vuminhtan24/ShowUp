@@ -25,6 +25,18 @@ public class User {
         this.status = status;
     }
 
+    public User(int userId, String username, String passwordHash,
+            String email, String phone, String role, String status, int credits) {
+        this.userId = userId;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.status = status;
+        this.credits = credits;
+    }
+
     // Getter & Setter
     public int getUserId() {
         return userId;

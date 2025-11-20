@@ -73,17 +73,20 @@
                 <th>User ID</th>
                 <th>Name</th>
                 <th>Credits</th>
-                <th>Action</th>
             </tr>
 
             <c:forEach var="u" items="${userList}">
                 <tr>
                     <td>${u.userId}</td>
                     <td>${u.username}</td>
-                    <td>${u.credits}</td>
                     <td>
-                        <a href="editCredits?userId=${u.userId}">Edit</a>
+                        <form action="manageCredits" method="post" style="display:flex; gap:6px;">
+                            <input type="hidden" name="userId" value="${u.userId}">
+                            <input type="number" name="credits" value="${u.credits}" style="width:80px;">
+                            <button type="submit">Save</button>
+                        </form>
                     </td>
+
                 </tr>
             </c:forEach>
 

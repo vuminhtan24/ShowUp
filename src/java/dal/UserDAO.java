@@ -134,11 +134,55 @@ public class UserDAO extends DBContext {
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            this.closeConnection();
         }
 
         return list;
+    }
+
+    public List<User> searchUsersByPageWithCredits(String keyword, int offset, int limit) {
+        List<User> list = new ArrayList<>();
+
+        String sql = """
+        SELECT u.user_id, u.username, u.role, u.status, c.credits
+        FROM users u
+        LEFT JOIN user_credits c ON u.user_id = c.user_id
+        WHERE u.username LIKE ? OR u.email LIKE ?
+        ORDER BY u.user_id
+        LIMIT ? OFFSET ?
+    """;
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, "%" + keyword + "%");
+            st.setString(2, "%" + keyword + "%");
+            st.setInt(3, limit);
+            st.setInt(4, offset);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                User u = new User();
+                u.setUserId(rs.getInt("user_id"));
+                u.setUsername(rs.getString("username"));
+                u.setRole(rs.getString("role"));
+                u.setStatus(rs.getString("status"));
+                u.setCredits(rs.getInt("credits"));
+                list.add(u);
+            }
+        } catch (SQLException e) {
+            System.out.println("searchUsersByPageWithCredits: " + e.getMessage());
+        }
+
+        return list;
+    }
+
+    public void updateCredits(int userId, int credits) {
+        String sql = "UPDATE users SET credits=? WHERE user_id=?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, credits);
+            st.setInt(2, userId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public List<User> searchUsersByPage(String keyword, int offset, int limit) {
@@ -172,8 +216,6 @@ public class UserDAO extends DBContext {
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            this.closeConnection();
         }
 
         return list;
@@ -231,8 +273,59 @@ public class UserDAO extends DBContext {
         return 0;
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         UserDAO dao = new UserDAO();
-        System.out.println(dao.getTotalUsersSearch("Tân"));
+
+        System.out.println("===== TEST REGISTER =====");
+        User newUser = new User();
+        newUser.setUsername("testUser");
+        newUser.setPasswordHash("123456");  // Sẽ được BCrypt mã hoá
+        newUser.setEmail("test@example.com");
+        newUser.setPhone("0123456789");
+        newUser.setRole("customer");
+
+        boolean reg = dao.register(newUser);
+        System.out.println("Register result: " + reg);
+
+        System.out.println("\n===== TEST LOGIN =====");
+        User login = dao.login("test@example.com", "123456");
+        System.out.println("Login: " + (login != null ? "SUCCESS → " + login.getUsername() : "FAIL"));
+
+        System.out.println("\n===== TEST GET TOTAL USERS =====");
+        System.out.println("Total users: " + dao.getTotalUsers());
+
+        System.out.println("\n===== TEST PAGINATION (getUsersByPage) =====");
+        List<User> pageUsers = dao.getUsersByPage(0, 5);
+        for (User u : pageUsers) {
+            System.out.println(u.getUserId() + " | " + u.getUsername() + " | " + u.getRole());
+        }
+
+        System.out.println("\n===== TEST UPDATE ROLE =====");
+        boolean roleUpdated = dao.updateUserRole(1, "admin");
+        System.out.println("Update role result: " + roleUpdated);
+
+        System.out.println("\n===== TEST GET USERS WITH CREDITS =====");
+        List<User> creditUsers = dao.getUsersByPageWithCredits(0, 5);
+        for (User u : creditUsers) {
+            System.out.println(u.getUserId() + " | " + u.getUsername() + " | Credits: " + u.getCredits());
+        }
+
+        System.out.println("\n===== TEST UPDATE CREDITS =====");
+        dao.updateCredits(1, 200); // set = 200
+        System.out.println("Credits after update (user 1): " + dao.getCredits(1));
+
+        System.out.println("\n===== TEST DECREASE CREDITS (trừ 5) =====");
+        dao.decreaseCredits(1, 5);
+        System.out.println("Credits after decrease: " + dao.getCredits(1));
+
+        System.out.println("\n===== TEST SEARCH USERS =====");
+        List<User> search = dao.searchUsersByPage("Tân", 0, 10);
+        for (User u : search) {
+            System.out.println(u.getUserId() + " | " + u.getUsername() + " | Credits: " + u.getCredits());
+        }
+
+        System.out.println("\n===== TEST TOTAL USERS SEARCH =====");
+        System.out.println("Total search results: " + dao.getTotalUsersSearch("Tân"));
     }
+
 }
