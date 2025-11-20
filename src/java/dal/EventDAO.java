@@ -270,10 +270,64 @@ public class EventDAO extends DBContext {
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             this.closeConnection();
         }
         return false;
+    }
+
+    public List<Event> getExpiredEventsNotNotified() {
+        List<Event> list = new ArrayList<>();
+
+        String sql = """
+        SELECT 
+            e.event_id,
+            e.customer_id,
+            e.event_name,
+            e.event_date,
+            e.event_time,
+            u.email AS customer_email
+        FROM events e
+        JOIN users u ON e.customer_id = u.user_id
+        WHERE CONCAT(e.event_date, ' ', e.event_time) < NOW()
+          AND e.status != 'expired'
+          AND e.notified_expired = 0
+    """;
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Event ev = new Event();
+                ev.setEventId(rs.getInt("event_id"));
+                ev.setCustomerId(rs.getInt("customer_id"));
+                ev.setEventName(rs.getString("event_name"));
+                ev.setEventDate(rs.getDate("event_date"));
+                ev.setEventTime(rs.getTime("event_time"));
+                ev.setGmail(rs.getString("customer_email"));
+
+                list.add(ev);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public void markAsNotified(int eventId) {
+        String sql = """
+        UPDATE events
+        SET status = 'closed',
+            notified_expired = 1
+        WHERE event_id = ?
+    """;
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, eventId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

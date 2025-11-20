@@ -22,7 +22,7 @@ public class Event {
     private String location;
     private String status;
     private Date createdAt;
-
+    private String gmail;
     private String customerName; // Dùng khi join với users
 
     // Getters & Setters
@@ -104,5 +104,13 @@ public class Event {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    public String getGmail() {
+        return gmail;
+    }
+
+    public void setGmail(String gmail) {
+        this.gmail = gmail;
     }
 }
