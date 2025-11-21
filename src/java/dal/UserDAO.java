@@ -273,59 +273,62 @@ public class UserDAO extends DBContext {
         return 0;
     }
 
+    public int getUserIdByEventId(int eventId) {
+        String sql = "SELECT customer_id FROM events WHERE event_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, eventId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("customer_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1; // không tìm thấy
+    }
+
+    public String getPhoneByUserId(int userId) {
+        String sql = "SELECT phone FROM users WHERE user_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("phone");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // không tìm thấy
+    }
+
+    public String getEmailByUserId(int userId) {
+        String sql = "SELECT email FROM users WHERE user_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("phone");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // không tìm thấy
+    }
+
     public static void main(String[] args) {
         UserDAO dao = new UserDAO();
 
-        System.out.println("===== TEST REGISTER =====");
-        User newUser = new User();
-        newUser.setUsername("testUser");
-        newUser.setPasswordHash("123456");  // Sẽ được BCrypt mã hoá
-        newUser.setEmail("test@example.com");
-        newUser.setPhone("0123456789");
-        newUser.setRole("customer");
+        System.out.println(dao.getUserIdByEventId(17));
 
-        boolean reg = dao.register(newUser);
-        System.out.println("Register result: " + reg);
-
-        System.out.println("\n===== TEST LOGIN =====");
-        User login = dao.login("test@example.com", "123456");
-        System.out.println("Login: " + (login != null ? "SUCCESS → " + login.getUsername() : "FAIL"));
-
-        System.out.println("\n===== TEST GET TOTAL USERS =====");
-        System.out.println("Total users: " + dao.getTotalUsers());
-
-        System.out.println("\n===== TEST PAGINATION (getUsersByPage) =====");
-        List<User> pageUsers = dao.getUsersByPage(0, 5);
-        for (User u : pageUsers) {
-            System.out.println(u.getUserId() + " | " + u.getUsername() + " | " + u.getRole());
-        }
-
-        System.out.println("\n===== TEST UPDATE ROLE =====");
-        boolean roleUpdated = dao.updateUserRole(1, "admin");
-        System.out.println("Update role result: " + roleUpdated);
-
-        System.out.println("\n===== TEST GET USERS WITH CREDITS =====");
-        List<User> creditUsers = dao.getUsersByPageWithCredits(0, 5);
-        for (User u : creditUsers) {
-            System.out.println(u.getUserId() + " | " + u.getUsername() + " | Credits: " + u.getCredits());
-        }
-
-        System.out.println("\n===== TEST UPDATE CREDITS =====");
-        dao.updateCredits(1, 200); // set = 200
-        System.out.println("Credits after update (user 1): " + dao.getCredits(1));
-
-        System.out.println("\n===== TEST DECREASE CREDITS (trừ 5) =====");
-        dao.decreaseCredits(1, 5);
-        System.out.println("Credits after decrease: " + dao.getCredits(1));
-
-        System.out.println("\n===== TEST SEARCH USERS =====");
-        List<User> search = dao.searchUsersByPage("Tân", 0, 10);
-        for (User u : search) {
-            System.out.println(u.getUserId() + " | " + u.getUsername() + " | Credits: " + u.getCredits());
-        }
-
-        System.out.println("\n===== TEST TOTAL USERS SEARCH =====");
-        System.out.println("Total search results: " + dao.getTotalUsersSearch("Tân"));
     }
 
 }

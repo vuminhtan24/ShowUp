@@ -103,3 +103,23 @@ body {
     font-size: 14px;
     color: #777;
 }
+.blurred {
+    filter: blur(4px);
+    color: #999;
+    user-select: none;
+}
+.unlock-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: #6366f1;
+    color: white;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+}
+.unlock-btn:hover {
+    background: #4f46e5;
+}

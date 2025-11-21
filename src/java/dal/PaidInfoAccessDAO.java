@@ -43,4 +43,12 @@ public class PaidInfoAccessDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    public static void main(String[] args) {
+        PaidInfoAccessDAO n = new PaidInfoAccessDAO();
+        if(n.hasAccess(105, 6, "Phone")){
+            System.out.println("roi");
+        }else{
+            System.out.println("chua");
+        }
+    }
 }

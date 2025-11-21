@@ -107,6 +107,20 @@ public class ArtistDAO extends DBContext {
         }
         return null;
     }
+    public String getEmailByArtistId(int artistId) {
+        String sql = "SELECT email FROM users WHERE user_id = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, artistId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getString("email");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     //update artist bio
     public boolean updateArtistBio(int userId, String bio) {
@@ -300,7 +314,7 @@ public class ArtistDAO extends DBContext {
         Artist artist = new Artist();
         String bio = "My name is Tan";
         dao.updateArtistBio(6, bio);
-        String real = dao.getPhoneByArtistId(6);
+        String real = dao.getEmailByArtistId(6);
         System.out.println(real);
     }
 
