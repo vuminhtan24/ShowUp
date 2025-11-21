@@ -22,9 +22,11 @@ public class Event {
     private String location;
     private String status;
     private Date createdAt;
-    private String gmail;
+    
+    private String gmail;// Dùng khi join với users
     private String customerName; // Dùng khi join với users
-
+    private String phone; // Dùng khi join với users
+    
     // Getters & Setters
     public int getEventId() {
         return eventId;
@@ -112,5 +114,13 @@ public class Event {
 
     public void setGmail(String gmail) {
         this.gmail = gmail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

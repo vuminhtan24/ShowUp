@@ -40,7 +40,7 @@
                                     ${event.status}
                                 </span>
                                 <form action="eventDetail" method="get">
-                                    <input type="hidden" name="id" value="${event.eventId}">
+                                    <input type="hidden" name="eventId" value="${event.eventId}">
                                     <button class="btn-view" type="submit">Xem chi tiết</button>
                                 </form>
                             </div>

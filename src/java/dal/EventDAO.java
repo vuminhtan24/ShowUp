@@ -184,7 +184,13 @@ public class EventDAO extends DBContext {
 
     // Lấy sự kiện theo ID
     public Event getEventById(int eventId) {
-        String sql = "SELECT * FROM events WHERE event_id = ?";
+        String sql = """
+        SELECT e.*, u.username, u.email, u.phone
+        FROM events e
+        JOIN users u ON e.customer_id = u.user_id
+        WHERE e.event_id = ?
+    """;
+
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, eventId);
             ResultSet rs = ps.executeQuery();
@@ -196,8 +202,17 @@ public class EventDAO extends DBContext {
                 e.setEventDate(rs.getDate("event_date"));
                 e.setEventTime(rs.getTime("event_time"));
                 e.setLocation(rs.getString("location"));
-                e.setDescription(rs.getString("description "));
+                e.setDescription(rs.getString("description"));
+                e.setStatus(rs.getString("status"));
                 e.setCreatedAt(rs.getTimestamp("created_at"));
+
+                // --- Thông tin User ---
+                e.setCustomerName(rs.getString("username"));
+                e.setGmail(rs.getString("email"));
+                e.setPhone(rs.getString("phone"));
+                System.out.println("Phone = " + e.getPhone());
+
+
                 return e;
             }
         } catch (SQLException ex) {
@@ -332,11 +347,8 @@ public class EventDAO extends DBContext {
 
     public static void main(String[] args) {
         EventDAO dao = new EventDAO();
-        boolean a = dao.updateEventStatus(3, "Closed");
-        if (a == true) {
-            System.out.println("ok");
-        } else {
-            System.out.println("ko");
-        }
+        System.out.println(dao.getEventById(1));
+        
+        
     }
 }

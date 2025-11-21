@@ -32,8 +32,11 @@ public class MailService {
             message.setFrom(new InternetAddress(USER));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject("Sự kiện của bạn đã hết hạn");
-            message.setText("Xin chào,\n\nSự kiện \"" + eventTitle + "\" đã hết hạn.\nHãy kiểm tra lại trên hệ thống.\n\nTrân trọng.");
-
+            String html = "<p>Xin chào,</p>"
+                    + "<p>Sự kiện \"<b>" + eventTitle + "</b>\" đã hết hạn.</p>"
+                    + "<p>Hãy kiểm tra lại trên hệ thống.</p>"
+                    + "<p>Trân trọng.</p>";
+            message.setContent(html, "text/html; charset=UTF-8");
             Transport.send(message);
 
         } catch (Exception e) {
