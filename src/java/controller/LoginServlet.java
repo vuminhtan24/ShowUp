@@ -55,7 +55,8 @@ public class LoginServlet extends HttpServlet {
 
         } else {
             request.setAttribute("messLogin", "Sai email hoặc mật khẩu!");
-            request.getRequestDispatcher("./login").forward(request, response);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+
         }
 
     }

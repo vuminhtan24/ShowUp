@@ -86,6 +86,7 @@ public class UpdateArtistBioServlet extends HttpServlet {
 
         int userId = account.getUserId();
         String bio = request.getParameter("bio");
+        String stageName = request.getParameter("stageName");
 
         if (bio == null || bio.trim().isEmpty()) {
             request.setAttribute("error", "Bio cannot be empty!");
@@ -94,7 +95,7 @@ public class UpdateArtistBioServlet extends HttpServlet {
         }
 
         // ✅ Gọi DAO để update
-        boolean success = artistDAO.updateArtistBio(userId, bio);
+        boolean success = artistDAO.updateArtistBioAndStageName(userId, bio,stageName);
 
         if (success) {
             session.setAttribute("message", "Updated bio successfully!");

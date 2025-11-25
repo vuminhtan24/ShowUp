@@ -115,7 +115,24 @@
                         <!-- Personal Information Form -->
                         <div class="form-section" id="profile">
                             <h3>Thông tin cơ bản</h3>
-                            <form class="profile-form" method="POST" action="updateProfile">
+
+                            <!-- FLASH MESSAGES -->
+                            <c:if test="${not empty sessionScope.success}">
+                                <div class="alert alert-success">
+                                    ${sessionScope.success}
+                                </div>
+                                <c:remove var="success" scope="session"/>
+                            </c:if>
+
+                            <c:if test="${not empty sessionScope.error}">
+                                <div class="alert alert-danger">
+                                    ${sessionScope.error}
+                                </div>
+                                <c:remove var="error" scope="session"/>
+                            </c:if>
+                            <!-- END FLASH MESSAGES -->
+
+                            <form class="profile-form" method="POST" action="userProfile">
                                 <div class="form-grid">
                                     <div class="form-group">
                                         <label class="form-label" for="username">Họ và tên</label>
@@ -141,11 +158,12 @@
                             </form>
                         </div>
 
+
                         <!-- Artist Information -->
                         <c:if test="${user.role eq 'artist'}">
                             <div class="form-section" id="artist">
                                 <h3>Thông tin nghệ sĩ</h3>
-                                <form class="artist-form" method="POST" action="updateArtist">
+                                <form class="artist-form" method="POST" action="updateArtistBio">
                                     <div class="form-grid">
                                         <div class="form-group">
                                             <label class="form-label" for="stageName">Tên nghệ danh</label>

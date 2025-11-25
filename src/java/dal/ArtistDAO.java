@@ -123,11 +123,12 @@ public class ArtistDAO extends DBContext {
     }
 
     //update artist bio
-    public boolean updateArtistBio(int userId, String bio) {
-        String sql = "UPDATE artist_profiles SET bio = ? WHERE artist_id = ?";
+    public boolean updateArtistBioAndStageName(int userId, String bio, String name) {
+        String sql = "UPDATE artist_profiles SET bio = ?, stage_name = ? WHERE artist_id = ?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, bio);
-            st.setInt(2, userId);
+            st.setString(2, name);
+            st.setInt(3, userId);
             return st.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -311,11 +312,6 @@ public class ArtistDAO extends DBContext {
 
         ArtistDAO dao = new ArtistDAO();
 
-        Artist artist = new Artist();
-        String bio = "My name is Tan";
-        dao.updateArtistBio(6, bio);
-        String real = dao.getEmailByArtistId(6);
-        System.out.println(real);
     }
 
 }

@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/scheduler/EventScheduler.java</file>
-            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/scheduler/EventCheckTask.java</file>
-            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/dal/MediaDAO.java</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/web/eventDetail.jsp</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/controller/ViewContact.java</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/web/header.jsp</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/dal/UserDAO.java</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/controller/ViewPhoneServlet.java</file>
             <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/model/Event.java</file>
-            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/dal/EventDAO.java</file>
         </group>
     </open-files>
 </project-private>

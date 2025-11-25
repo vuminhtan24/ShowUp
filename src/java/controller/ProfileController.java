@@ -29,6 +29,9 @@ import model.User;
  */
 public class ProfileController extends HttpServlet {
 
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+    private static final String PHONE_REGEX = "^0[0-9]{9}$";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -111,7 +114,43 @@ public class ProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        User user = (User) session.getAttribute("account");
+        int userId = user.getUserId();
+
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+
+        // ===== VALIDATE EMAIL =====
+        if (email == null || !email.matches(EMAIL_REGEX)) {
+            request.setAttribute("error", "Email không hợp lệ!");
+            request.getRequestDispatcher("userProfile.jsp").forward(request, response);
+            return;
+        }
+
+        // ===== VALIDATE PHONE =====
+        if (phone == null || !phone.matches(PHONE_REGEX)) {
+            request.setAttribute("error", "Số điện thoại phải gồm 10 số và bắt đầu bằng 0!");
+            request.getRequestDispatcher("userProfile.jsp").forward(request, response);
+            return;
+        }
+
+        // ===== Nếu hợp lệ thì cập nhật tiếp =====
+        DAOAccount dao = new DAOAccount();
+        boolean updated = dao.updateEmailAndPhone(userId, email, phone);
+
+        if (updated) {
+            session.setAttribute("success", "Cập nhật thông tin thành công!");
+        } else {
+            session.setAttribute("error", "Cập nhật thất bại, vui lòng thử lại!");
+        }
+
+        response.sendRedirect("userProfile?userId=" + userId);
     }
 
     /**

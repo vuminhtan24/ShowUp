@@ -164,6 +164,19 @@ public class DAOAccount extends DBContext {
         }
         return false;
     }
+    // Cập nhật thông tin (trừ mật khẩu)
+    public boolean updateEmailAndPhone(int id, String email, String phone) {
+        String sql = "UPDATE users SET email=?, phone=? WHERE user_id=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ps.setString(2, phone);
+            ps.setInt(3, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     // Đổi mật khẩu
     public boolean changePassword(int userId, String newRawPassword) {
