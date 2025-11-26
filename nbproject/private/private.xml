@@ -3,12 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Ky6/ShowUpProject/ShowUp/web/eventDetail.jsp</file>
-            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/controller/ViewContact.java</file>
-            <file>file:/D:/Ky6/ShowUpProject/ShowUp/web/header.jsp</file>
-            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/dal/UserDAO.java</file>
-            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/controller/ViewPhoneServlet.java</file>
-            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/model/Event.java</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/web/userProfile.jsp</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/web/admin.jsp</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/model/ArtistVerificationDTO.java</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/controller/ProfileController.java</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/web/manageCredits.jsp</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/model/Artist.java</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/web/artistVerification.jsp</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/controller/RegisterArtistController.java</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/dal/ArtistDAO.java</file>
+            <file>file:/D:/Ky6/ShowUpProject/ShowUp/src/java/dal/ArtistVerificationDAO.java</file>
         </group>
     </open-files>
 </project-private>

@@ -95,7 +95,9 @@ public class ProfileController extends HttpServlet {
         if ("artist".equalsIgnoreCase(user.getRole())) {
             ArtistDAO artistDAO = new ArtistDAO();
             Artist artist = artistDAO.getArtistByUserId(userId);
-            request.setAttribute("artist", artist);
+            if (artist != null && "approved".equalsIgnoreCase(artistDAO.getVerificationStatusByArtistId(userId))) {
+                request.setAttribute("artist", artist);
+            }
         }
 
         // Forward sang profile.jsp

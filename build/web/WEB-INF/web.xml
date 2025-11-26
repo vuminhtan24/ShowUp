@@ -68,6 +68,10 @@
         <servlet-name>ViewContact</servlet-name>
         <servlet-class>controller.ViewContact</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ApproveArtist</servlet-name>
+        <servlet-class>controller.ApproveArtist</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -135,5 +139,9 @@
     <servlet-mapping>
         <servlet-name>ViewContact</servlet-name>
         <url-pattern>/ViewContact</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ApproveArtist</servlet-name>
+        <url-pattern>/approveArtist</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -42,7 +42,7 @@
                         <ul class="sidebar-menu">
                             <li><a href="#profile" class="active">Thông tin tài khoản</a></li>
 
-                            <c:if test="${user.role eq 'artist'}">
+                            <c:if test="${not empty artist}">
                                 <li><a href="#artist">Thông tin nghệ sĩ</a></li>
                                 </c:if>
 
@@ -50,13 +50,14 @@
                                 <li><a href="#media">Ảnh & Media</a></li>
                                 </c:if>
                             <!-- Nút đăng ký trở thành nghệ sĩ đối tác -->
-                            <c:if test="${user.role ne 'artist'}">
+                            <c:if test="${empty artist}">
                                 <li>
                                     <a href="registerArtist" style="color:#2563eb; font-weight:600;">
                                         🎶 Trở thành nghệ sĩ ShowUp
                                     </a>
                                 </li>
                             </c:if>
+
                             <li><a href="#danger" style="color:#ef4444">Vùng nguy hiểm</a></li>
                         </ul>
                     </aside>
@@ -160,7 +161,7 @@
 
 
                         <!-- Artist Information -->
-                        <c:if test="${user.role eq 'artist'}">
+                        <c:if test="${not empty artist}">
                             <div class="form-section" id="artist">
                                 <h3>Thông tin nghệ sĩ</h3>
                                 <form class="artist-form" method="POST" action="updateArtistBio">

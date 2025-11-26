@@ -107,6 +107,7 @@ public class ArtistDAO extends DBContext {
         }
         return null;
     }
+
     public String getEmailByArtistId(int artistId) {
         String sql = "SELECT email FROM users WHERE user_id = ?";
 
@@ -308,10 +309,24 @@ public class ArtistDAO extends DBContext {
         return false;
     }
 
+    public String getVerificationStatusByArtistId(int artistId) {
+        String sql = "SELECT verification_status FROM artist_profiles WHERE artist_id = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, artistId); 
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getString("verification_status");  // ✔️ Lấy đúng tên cột
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
 
         ArtistDAO dao = new ArtistDAO();
-
+        System.out.println(dao.getVerificationStatusByArtistId(102));
     }
 
 }

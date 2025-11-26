@@ -37,6 +37,9 @@
                     <a href="manageCredits">
                         <div class="row">Quản lý điểm</div>
                     </a>
+                    <a href="artistVerification">
+                        <div class="row">Kiểm duyệt nghệ sĩ</div>
+                    </a>
                     <c:choose>
                         <c:when test="${not empty sessionScope.account}">
                             <div class="row">
