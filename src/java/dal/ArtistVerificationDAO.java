@@ -12,6 +12,7 @@ import java.sql.*;
 import java.util.*;
 import model.ArtistVerificationDTO;
 import java.sql.Timestamp;
+
 public class ArtistVerificationDAO extends DBContext {
 
     // Lấy danh sách nghệ sĩ chờ duyệt
@@ -34,7 +35,7 @@ public class ArtistVerificationDAO extends DBContext {
                     LIMIT 1
                 ) AS avatar_url
             FROM artist_profiles ap
-            JOIN users u ON ap.artist_id = u.user_id
+            JOIN users u ON ap.artist_id = u.u
             ORDER BY ap.verified_at DESC;
         """;
 
@@ -173,50 +174,53 @@ public class ArtistVerificationDAO extends DBContext {
 
         return dto;
     }
-    
+
+    public List<ArtistVerificationDTO> searchArtists(String keyword) {
+        List<ArtistVerificationDTO> list = new ArrayList<>();
+
+        String sql = """
+        SELECT ap.artist_id, ap.stage_name, u.username, u.email, u.phone,
+               ap.verification_status, ap.verified_at
+        FROM artist_profiles ap
+        JOIN users u ON ap.artist_id = u.user_id
+        WHERE 
+            ap.stage_name LIKE ? 
+            OR u.username LIKE ?
+            OR u.email LIKE ?
+    """;
+
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            String searchKey = "%" + keyword + "%";
+            stm.setString(1, searchKey);
+            stm.setString(2, searchKey);
+            stm.setString(3, searchKey);
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                ArtistVerificationDTO a = new ArtistVerificationDTO();
+                a.setArtistId(rs.getInt("artist_id"));
+                a.setStageName(rs.getString("stage_name"));
+                a.setUsername(rs.getString("username"));
+                a.setEmail(rs.getString("email"));
+                a.setPhone(rs.getString("phone"));
+
+                a.setVerificationStatus(rs.getString("verification_status"));
+                a.setVerified_at(rs.getTimestamp("verified_at"));
+
+                list.add(a);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
 
         ArtistVerificationDAO dao = new ArtistVerificationDAO();
 
-        System.out.println("===== TEST: LẤY DANH SÁCH NGHỆ SĨ PENDING =====");
-        List<ArtistVerificationDTO> list = dao.getPendingArtists();
-        for (ArtistVerificationDTO a : list) {
-            System.out.println(
-                "ID: " + a.getArtistId() +
-                " | Stage: " + a.getStageName() +
-                " | Username: " + a.getUsername() +
-                " | Email: " + a.getEmail() +
-                " | Genres: " + a.getGenres() +
-                " | Avatar: " + a.getAvatarUrl() +
-                " | Status: " + a.getVerificationStatus()
-            );
-        }
-
-        System.out.println("\n===== TEST: LẤY CHI TIẾT NGHỆ SĨ THEO ID =====");
-        int testArtistId = 6;   // đổi ID theo DB của bạn
-        ArtistVerificationDTO artist = dao.getArtistById(testArtistId);
-        if (artist != null) {
-            System.out.println("Artist ID: " + artist.getArtistId());
-            System.out.println("Stage Name: " + artist.getStageName());
-            System.out.println("Username: " + artist.getUsername());
-            System.out.println("Email: " + artist.getEmail());
-            System.out.println("Phone: " + artist.getPhone());
-            System.out.println("Avatar: " + artist.getAvatarUrl());
-            System.out.println("Genres: " + artist.getGenres());
-            System.out.println("Verified_at: " + artist.getVerified_at());
-            System.out.println("Status: " + artist.getVerificationStatus());
-        } else {
-            System.out.println("Không tìm thấy nghệ sĩ ID = " + testArtistId);
-        }
-
-        System.out.println("\n===== TEST: APPROVE ARTIST =====");
-        int approveId = 102;  // ID cần approve
-        boolean approved = dao.approveArtist(approveId);
-        System.out.println("Approve artist " + approveId + ": " + approved);
-
-        System.out.println("\n===== TEST: REJECT ARTIST =====");
-        int rejectId = 6;  // ID cần reject
-        boolean rejected = dao.rejectArtist(rejectId);
-        System.out.println("Reject artist " + rejectId + ": " + rejected);
+        System.out.println(dao.searchArtists("a"));
     }
 }

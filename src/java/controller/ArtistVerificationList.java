@@ -58,14 +58,22 @@ public class ArtistVerificationList extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        String keyword = req.getParameter("keyword");
         ArtistVerificationDAO dao = new ArtistVerificationDAO();
-        List<ArtistVerificationDTO> list = dao.getPendingArtists();
 
-        request.setAttribute("artistList", list);
-        request.getRequestDispatcher("/artistVerification.jsp").forward(request, response);
+        List<ArtistVerificationDTO> list;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            list = dao.searchArtists(keyword.trim());
+        } else {
+            list = dao.getPendingArtists();
+        }
+
+        req.setAttribute("artistList", list);
+        req.getRequestDispatcher("artistVerification.jsp").forward(req, resp);
     }
 
     /**
